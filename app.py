@@ -21,6 +21,7 @@ def say_hello(name: str):
 def double(number: int):
     return {"result" : number * 2}
 
+tasks = []
 
 class Task(BaseModel):
     title: str
@@ -29,7 +30,13 @@ class Task(BaseModel):
 
 @app.post("/tasks")
 def check_task(task: Task):
-    return {"message" : "Task received", "task" : task}
+    tasks.append(task)
+    return {"message" : "Task saved", "total_tasks" : len(tasks)}
+
+
+@app.get("/tasks")
+def get_tasks():
+    return tasks
 
 
 if __name__ == "__main__":
